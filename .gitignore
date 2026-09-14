@@ -1,0 +1,13 @@
+# Archivos de sistema
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
+
+# Credenciales (nunca subir al repo)
+secrets.py
+credentials.py
+*.env
+
+# Thonny
+.thonny/
