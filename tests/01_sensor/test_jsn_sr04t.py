@@ -1,16 +1,14 @@
 """
 TEST 01 — Sensor JSN-SR04T
-Objetivo: verificar que el sensor lee distancia correctamente, sin LoRa ni MQTT.
-
-Cargar este archivo como main.py en el RP2040 y ver la consola en Thonny.
-Esperado: lecturas de distancia en cm cada segundo.
+Verifica el funcionamiento individual del sensor. Solo valida captura de data, no está conectado a LoRa o MQTT.
+Archivo tipo main.py va en RP2040 y con sola en Thonny, "Esperando: lecturas de distancia en cm cada seg."
 """
 
 from machine import Pin
 from jsn_sr04t import JSNSR04T
 import time
 
-# ── Ajustar estos pines según tu cableado ──
+# ── Configurar estos pines según definición ──
 TRIG_PIN = 2
 ECHO_PIN = 3
 ALTURA_CANECA_CM = 60
