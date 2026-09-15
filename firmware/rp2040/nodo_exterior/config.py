@@ -5,9 +5,10 @@
 # Identificador de este nodo (cambiar por ubicación real)
 NODE_ID = "ECO-01"
 
-# Sensor JSN-SR04T
-TRIG_PIN = 2   # Ajustar según cableado real
-ECHO_PIN = 3   # Ajustar según cableado real
+# Sensor JSN-SR04T — Modo 2 UART (R27 = 47K)
+UART_ID  = 1   # Bus UART1 del RP2040
+TX_PIN   = 5   # GP5 → RX del sensor
+RX_PIN   = 4   # GP4 ← TX del sensor
 ALTURA_CANECA_CM = 60   # Altura interior de la caneca en cm
 
 # Umbral de alerta (%)

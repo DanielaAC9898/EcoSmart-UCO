@@ -21,7 +21,7 @@ def construir_mensaje(node_id, nivel, distancia):
 
 
 # ── Inicialización ──────────────────────────────────────
-sensor = JSNSR04T(config.TRIG_PIN, config.ECHO_PIN)
+sensor = JSNSR04T(config.UART_ID, config.TX_PIN, config.RX_PIN)
 
 spi  = SPI(config.LORA_SPI_ID,
            baudrate=1_000_000,

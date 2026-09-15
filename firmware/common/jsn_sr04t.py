@@ -1,53 +1,71 @@
 """
 Driver para sensor ultrasónico JSN-SR04T en MicroPython.
+Modo 2 — Salida serial UART (R27 = 47K soldada).
 Compatible con RP2040 y ESP32.
 
 Conexión:
   VCC  → 5V
   GND  → GND
-  TRIG → pin configurado en config.py
-  ECHO → pin configurado en config.py
+  TX del sensor → GP4 (RX del RP2040)  ← el sensor transmite, el RP2040 escucha
+  RX del sensor → GP5 (TX del RP2040)  ← no se usa en modo solo lectura
 
-Rango útil: 20 cm – 450 cm
+Protocolo (cada 100ms el sensor envía 4 bytes):
+  0xFF | H_DATA | L_DATA | SUM
+  Distancia (mm) = (H_DATA << 8) | L_DATA
+  SUM = (0xFF + H_DATA + L_DATA) & 0xFF
+
+Rango útil: 200 mm – 4500 mm (20 cm – 450 cm)
 """
 
-from machine import Pin, time_pulse_us
+from machine import UART, Pin
 import time
 
 
 class JSNSR04T:
-    def __init__(self, trig_pin, echo_pin, timeout_us=30000):
+    def __init__(self, uart_id=1, tx_pin=5, rx_pin=4):
         """
-        trig_pin  : número de pin GPIO para TRIG
-        echo_pin  : número de pin GPIO para ECHO
-        timeout_us: tiempo máximo de espera en microsegundos (default 30 ms → ~5 m)
+        uart_id : ID del bus UART (1 por defecto en RP2040)
+        tx_pin  : GP5 — TX del RP2040 (conectado a RX del sensor)
+        rx_pin  : GP4 — RX del RP2040 (conectado a TX del sensor)
         """
-        self.trig = Pin(trig_pin, Pin.OUT)
-        self.echo = Pin(echo_pin, Pin.IN)
-        self.timeout_us = timeout_us
-        self.trig.value(0)
+        self.uart = UART(uart_id, baudrate=9600, tx=Pin(tx_pin), rx=Pin(rx_pin))
+        time.sleep_ms(100)  # Esperar primer ciclo del sensor
 
     def distancia_cm(self):
         """
-        Retorna la distancia medida en centímetros.
-        Retorna None si no hay objeto detectado o hay error.
+        Lee un frame válido del sensor.
+        Retorna la distancia en centímetros, o None si hay error de lectura.
         """
-        # Pulso de disparo: 10 µs
-        self.trig.value(0)
-        time.sleep_us(2)
-        self.trig.value(1)
-        time.sleep_us(10)
-        self.trig.value(0)
+        # Descartar bytes viejos del buffer
+        self.uart.read()
 
-        # Medir duración del eco
-        duracion = time_pulse_us(self.echo, 1, self.timeout_us)
+        # Esperar un frame completo (el sensor emite cada 100ms)
+        time.sleep_ms(150)
 
-        if duracion < 0:
-            return None  # Timeout: sin objeto detectado o fuera de rango
+        if self.uart.any() < 4:
+            return None
 
-        # Velocidad del sonido: 343 m/s → 0.0343 cm/µs → dividir entre 2 (ida y vuelta)
-        distancia = (duracion * 0.0343) / 2
-        return round(distancia, 1)
+        datos = self.uart.read(4)
+
+        if datos is None or len(datos) < 4:
+            return None
+
+        # Verificar byte de inicio
+        if datos[0] != 0xFF:
+            return None
+
+        # Verificar checksum
+        checksum = (0xFF + datos[1] + datos[2]) & 0xFF
+        if checksum != datos[3]:
+            return None
+
+        distancia_mm = (datos[1] << 8) | datos[2]
+
+        # Rango válido: 200mm – 4500mm
+        if distancia_mm < 200 or distancia_mm > 4500:
+            return None
+
+        return round(distancia_mm / 10, 1)  # Convertir mm → cm
 
     def nivel_llenado(self, altura_caneca_cm):
         """
@@ -59,7 +77,6 @@ class JSNSR04T:
         if distancia is None:
             return None
 
-        # Si la distancia es mayor a la altura, el sensor está mal instalado
         distancia = min(distancia, altura_caneca_cm)
         porcentaje = ((altura_caneca_cm - distancia) / altura_caneca_cm) * 100
         return round(porcentaje, 1)
