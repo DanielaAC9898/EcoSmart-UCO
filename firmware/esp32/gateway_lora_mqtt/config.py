@@ -7,7 +7,7 @@ WIFI_SSID     = "nombre_red"
 WIFI_PASSWORD = "contraseña"
 
 # Broker MQTT (IP de la Raspberry Pi o PC con Mosquitto)
-MQTT_BROKER   = "192.168.1.100"   # Cambiar a IP real del broker
+MQTT_BROKER   = "192.168.1.100"   # Pilas, cambiar a IP real del broker
 MQTT_PORT     = 1883
 MQTT_CLIENT_ID = "esp32-gateway-01"
 MQTT_TOPIC    = b"ecosmart/puntos"
