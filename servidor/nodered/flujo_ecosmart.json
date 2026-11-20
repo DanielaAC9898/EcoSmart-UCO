@@ -1,0 +1,129 @@
+[
+    {
+        "id": "407d4ca9db915b85",
+        "type": "tab",
+        "label": "iot",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "e11fe8a05e4ec821",
+        "type": "mysql",
+        "z": "407d4ca9db915b85",
+        "mydb": "708316b31fb938a2",
+        "name": "",
+        "x": 470,
+        "y": 240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6234e648df601434",
+        "type": "function",
+        "z": "407d4ca9db915b85",
+        "name": "InsertarDB",
+        "func": "// 1. Asegurar que msg.payload sea un objeto JavaScript\nlet data = msg.payload;\nif (typeof data === \"string\") {\n    try {\n        data = JSON.parse(data);\n    } catch (e) {\n        node.error(\"Error al procesar el JSON: \" + e.message, msg);\n        return null;\n    }\n}\n\n// 2. Validar si la propiedad 'mac' coincide con la MAC autorizada\nconst MAC_AUTORIZADA = \"e6:61:18:c4:17:86:7e:21\";\n\nif (!data.mac || data.mac !== MAC_AUTORIZADA) {\n    node.warn(\"Se esta intentando ingresar un nodo que no es autorizado. MAC recibida: \" + data.mac);\n    return null; // Cancela el flujo y no inserta en la base de datos\n}\n\n// 3. Consulta SQL usando la función NOW() de MySQL/MariaDB para la fecha\nmsg.topic = \"INSERT INTO valores (nodo_id, estado, mensaje_id, distancia, fecha) VALUES (?, ?, ?, ?, NOW());\";\n\n// 4. Arreglo con los parámetros mapeados desde el JSON\nmsg.payload = [\n    data.nodo_Id,\n    data.estado,\n    data.msg_id,\n    data.distancia_cm\n];\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 270,
+        "y": 320,
+        "wires": [
+            [
+                "e11fe8a05e4ec821",
+                "695f790bc9a8ede7"
+            ]
+        ]
+    },
+    {
+        "id": "3f6a08a79f8a01f1",
+        "type": "mqtt in",
+        "z": "407d4ca9db915b85",
+        "name": "",
+        "topic": "iot",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "dac47eb13b2ba18a",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 90,
+        "y": 400,
+        "wires": [
+            [
+                "6234e648df601434"
+            ]
+        ]
+    },
+    {
+        "id": "695f790bc9a8ede7",
+        "type": "debug",
+        "z": "407d4ca9db915b85",
+        "name": "debug 3",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 620,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "708316b31fb938a2",
+        "type": "MySQLdatabase",
+        "name": "ServidorIoT",
+        "host": "192.168.0.108",
+        "port": "3306",
+        "db": "iot",
+        "tz": "-05:00",
+        "charset": "UTF8"
+    },
+    {
+        "id": "dac47eb13b2ba18a",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "127.0.0.1",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "92fe2b1ccdda52de",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "node-red-node-mysql": "3.0.3"
+        }
+    }
+]

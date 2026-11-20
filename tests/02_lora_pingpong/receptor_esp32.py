@@ -12,7 +12,7 @@ def al_recibir(datos):
 
 spi  = SPI(1, baudrate=1_000_000, sck=Pin(14), mosi=Pin(13), miso=Pin(12))
 lora = LoRa(spi, cs=27, reset=26, dio0=25, frequency=433e6, callback=al_recibir)
-lora.receive()
+lora.set_rx_mode()
 
 print("Receptor LoRa ESP32 listo...")
 while True:

@@ -1,0 +1,65 @@
+######## GATEWAY NUEVO (v1.1)
+================ RESULTADOS GATEWAY ================
+PASA   E1 Mensaje valido, MQTT OK
+       respuesta LoRa=ACK (esperada ACK) | publicaciones=1 (esp. 1) | reconexiones=0 (esp. 0)
+PASA   E2 Mensaje valido, MQTT se cae y la reconexion funciona
+       respuesta LoRa=ACK (esperada ACK) | publicaciones=1 (esp. 1) | reconexiones=1 (esp. 1)
+PASA   E3 Mensaje valido, MQTT caido y el broker no responde
+       respuesta LoRa=NACK (esperada NACK) | publicaciones=0 (esp. 0) | reconexiones=0 (esp. 0)
+PASA   E4 Trama corrupta (Base64 invalido)
+       respuesta LoRa=NACK (esperada NACK) | publicaciones=0 (esp. 0) | reconexiones=0 (esp. 0)
+PASA   E5 Trama con longitud que no es multiplo de 16
+       respuesta LoRa=NACK (esperada NACK) | publicaciones=0 (esp. 0) | reconexiones=0 (esp. 0)
+PASA   E6 Recuperacion: mensaje valido despues de las fallas
+       respuesta LoRa=ACK (esperada ACK) | publicaciones=1 (esp. 1) | reconexiones=0 (esp. 0)
+PASA   E7 El ping periodico detecta la caida y reconecta (pings OK=1, reconexiones por ping=1, esp. 1)
+Programa siguio corriendo sin bloquearse: SI
+Total: 7/7 escenarios correctos
+
+######## GATEWAY ORIGINAL
+================ RESULTADOS GATEWAY ================
+PASA   E1 Mensaje valido, MQTT OK
+       respuesta LoRa=ACK (esperada ACK) | publicaciones=1 (esp. 1) | reconexiones=0 (esp. 0)
+FALLA  E2 Mensaje valido, MQTT se cae y la reconexion funciona
+       respuesta LoRa=NACK (esperada ACK) | publicaciones=0 (esp. 1) | reconexiones=0 (esp. 1)
+PASA   E3 Mensaje valido, MQTT caido y el broker no responde
+       respuesta LoRa=NACK (esperada NACK) | publicaciones=0 (esp. 0) | reconexiones=0 (esp. 0)
+PASA   E4 Trama corrupta (Base64 invalido)
+       respuesta LoRa=NACK (esperada NACK) | publicaciones=0 (esp. 0) | reconexiones=0 (esp. 0)
+PASA   E5 Trama con longitud que no es multiplo de 16
+       respuesta LoRa=NACK (esperada NACK) | publicaciones=0 (esp. 0) | reconexiones=0 (esp. 0)
+PASA   E6 Recuperacion: mensaje valido despues de las fallas
+       respuesta LoRa=ACK (esperada ACK) | publicaciones=1 (esp. 1) | reconexiones=0 (esp. 0)
+PASA   E7 El ping periodico detecta la caida y reconecta (pings OK=1, reconexiones por ping=1, esp. 1)
+Programa siguio corriendo sin bloquearse: SI
+Total: 6/7 escenarios correctos
+
+######## NODO NUEVO (v1.1)
+================ RESULTADOS NODO ================
+PASA  Caneca vacia 120 cm                estado=DISPONIBLE     dist= 120.0 LEDs(V,A,R)=(1, 0, 0)  bytes_LoRa=172
+PASA  Justo encima de 70 (70.1)          estado=DISPONIBLE     dist=  70.1 LEDs(V,A,R)=(1, 0, 0)  bytes_LoRa=172
+PASA  Limite 70.0 cm                     estado=MEDIO          dist=  70.0 LEDs(V,A,R)=(0, 1, 0)  bytes_LoRa=152
+PASA  Medio 55 cm                        estado=MEDIO          dist=  55.0 LEDs(V,A,R)=(0, 1, 0)  bytes_LoRa=152
+PASA  Limite 40.0 cm                     estado=MEDIO          dist=  40.0 LEDs(V,A,R)=(0, 1, 0)  bytes_LoRa=152
+PASA  Justo debajo de 40 (39.9)          estado=LLENO          dist=  39.9 LEDs(V,A,R)=(0, 0, 1)  bytes_LoRa=152
+PASA  Lleno 25 cm                        estado=LLENO          dist=  25.0 LEDs(V,A,R)=(0, 0, 1)  bytes_LoRa=152
+PASA  Trama con ruido previo             estado=DISPONIBLE     dist=  85.3 LEDs(V,A,R)=(1, 0, 0)  bytes_LoRa=172
+PASA  Sensor sin respuesta (zona ciega)  estado=LLENO _UMBRAL  dist=   0.0 LEDs(V,A,R)=(0, 0, 1)  bytes_LoRa=172
+PASA  Checksum invalido                  estado=LLENO _UMBRAL  dist=   0.0 LEDs(V,A,R)=(0, 0, 1)  bytes_LoRa=172
+PASA  Lectura fuera de rango 600 cm      estado=LLENO _UMBRAL  dist=   0.0 LEDs(V,A,R)=(0, 0, 1)  bytes_LoRa=172
+Total: 11/11 casos correctos
+
+######## NODO ORIGINAL
+================ RESULTADOS NODO ================
+PASA  Caneca vacia 120 cm                estado=DISPONIBLE     dist= 120.0 LEDs(V,A,R)=(1, 0, 0)  bytes_LoRa=172
+PASA  Justo encima de 70 (70.1)          estado=DISPONIBLE     dist=  70.1 LEDs(V,A,R)=(1, 0, 0)  bytes_LoRa=172
+FALLA  Limite 70.0 cm                     estado=DISPONIBLE     dist=  70.0 LEDs(V,A,R)=(1, 0, 0)  bytes_LoRa=172
+FALLA  Medio 55 cm                        estado=DISPONIBLE     dist=  55.0 LEDs(V,A,R)=(1, 0, 0)  bytes_LoRa=172
+FALLA  Limite 40.0 cm                     estado=DISPONIBLE     dist=  40.0 LEDs(V,A,R)=(1, 0, 0)  bytes_LoRa=172
+FALLA  Justo debajo de 40 (39.9)          estado=DISPONIBLE     dist=  39.9 LEDs(V,A,R)=(1, 0, 0)  bytes_LoRa=172
+FALLA  Lleno 25 cm                        estado=DISPONIBLE     dist=  25.0 LEDs(V,A,R)=(1, 0, 0)  bytes_LoRa=172
+PASA  Trama con ruido previo             estado=DISPONIBLE     dist=  85.3 LEDs(V,A,R)=(1, 0, 0)  bytes_LoRa=172
+PASA  Sensor sin respuesta (zona ciega)  estado=LLENO _UMBRAL  dist=   0.0 LEDs(V,A,R)=(0, 0, 1)  bytes_LoRa=172
+PASA  Checksum invalido                  estado=LLENO _UMBRAL  dist=   0.0 LEDs(V,A,R)=(0, 0, 1)  bytes_LoRa=172
+PASA  Lectura fuera de rango 600 cm      estado=LLENO _UMBRAL  dist=   0.0 LEDs(V,A,R)=(0, 0, 1)  bytes_LoRa=172
+Total: 6/11 casos correctos

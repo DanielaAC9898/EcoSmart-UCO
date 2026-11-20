@@ -1,0 +1,4 @@
+Versiones de septiembre de 2026, conservadas como referencia.
+Usaban un mensaje en texto plano ("ECO-01;nivel:..;dist:..;alerta:..") y archivos config.py.
+Las versiones vigentes (v1.1: JSON + AES-128, calibración 40/70 cm, reconexión MQTT corregida)
+están en firmware/rp2040/nodo_exterior/main.py y firmware/esp32/gateway_lora_mqtt/main.py.
