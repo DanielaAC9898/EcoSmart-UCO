@@ -86,7 +86,3 @@ micropython test_nodo.py    ../../firmware/rp2040/nodo_exterior     mensajes.jso
 micropython test_gateway.py ../../firmware/esp32/gateway_lora_mqtt  mensajes.json   # esperado: 7/7
 ```
 
-
-## Uso de inteligencia artificial
-
-Durante el desarrollo se usó Claude (Anthropic) como apoyo para la revisión de código, las pruebas en simulación, los diagramas, la documentación y la animación del video de Uki. El detalle está en la sección «Declaración de uso de inteligencia artificial» del Documento técnico.
