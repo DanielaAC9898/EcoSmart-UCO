@@ -86,23 +86,6 @@ micropython test_nodo.py    ../../firmware/rp2040/nodo_exterior     mensajes.jso
 micropython test_gateway.py ../../firmware/esp32/gateway_lora_mqtt  mensajes.json   # esperado: 7/7
 ```
 
-## Documentación
-
-| Documento | Archivo |
-|---|---|
-| Documento técnico | `docs/ECO-DT-001_Documento_Tecnico.docx` |
-| Manual de usuario | `docs/ECO-MU-001_Manual_de_Usuario.docx` |
-| Manual técnico | `docs/ECO-MT-001_Manual_Tecnico.docx` |
-| Manual de instalación | `docs/ECO-MI-001_Manual_de_Instalacion.docx` |
-| Diagramas | `docs/diagramas/` |
-| Registro de cambios y evidencia de pruebas | `docs/CAMBIOS_v1.1.md`, `docs/evidencia_pruebas.txt` |
-
-## Pendientes conocidos
-
-- [ ] Reemplazar `firmware/esp32/gateway_lora_mqtt/MQTT/ejemplo_wifi.py` (provisional) por el archivo original del equipo.
-- [ ] Mover la clave AES del código a `secrets.py` (hoy está escrita en `main.py` del nodo y del gateway).
-- [ ] Mejoras de seguridad documentadas en `docs/CAMBIOS_v1.1.md` §5.2 (AES-CBC + HMAC, autenticación MQTT, QoS).
-- [ ] Integrar el nodo ECO-02 al flujo de Node-RED (tópico `iot` y campo `mac`).
 
 ## Uso de inteligencia artificial
 
